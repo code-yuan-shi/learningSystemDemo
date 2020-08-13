@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinyard.dao.CourseMapper" >
+  <resultMap id="BaseResultMap" type="com.sinyard.entity.Course" >
+    <id column="courseID" property="courseid" jdbcType="INTEGER" />
+    <result column="courseTitle" property="coursetitle" jdbcType="VARCHAR" />
+    <result column="courseContent" property="coursecontent" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from course
+    where courseID = #{courseid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sinyard.entity.Course" >
+    insert into course (courseID, courseTitle, courseContent
+      )
+    values (#{courseid,jdbcType=INTEGER}, #{coursetitle,jdbcType=VARCHAR}, #{coursecontent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sinyard.entity.Course" >
+    update course
+    set courseTitle = #{coursetitle,jdbcType=VARCHAR},
+      courseContent = #{coursecontent,jdbcType=VARCHAR}
+    where courseID = #{courseid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select courseID, courseTitle, courseContent
+    from course
+    where courseID = #{courseid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select courseID, courseTitle, courseContent
+    from course
+  </select>
+</mapper>

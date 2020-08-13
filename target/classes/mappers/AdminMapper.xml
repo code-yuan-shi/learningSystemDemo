@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinyard.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="com.sinyard.entity.Admin" >
+    <id column="adminID" property="adminid" jdbcType="INTEGER" />
+    <result column="adminName" property="adminname" jdbcType="VARCHAR" />
+    <result column="adminPassword" property="adminpassword" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from admin
+    where adminID = #{adminid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.sinyard.entity.Admin" >
+    insert into admin (adminID, adminName, adminPassword
+      )
+    values (#{adminid,jdbcType=INTEGER}, #{adminname,jdbcType=VARCHAR}, #{adminpassword,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.sinyard.entity.Admin" >
+    update admin
+    set adminName = #{adminname,jdbcType=VARCHAR},
+      adminPassword = #{adminpassword,jdbcType=VARCHAR}
+    where adminID = #{adminid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select adminID, adminName, adminPassword
+    from admin
+    where adminID = #{adminid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select adminID, adminName, adminPassword
+    from admin
+  </select>
+</mapper>
