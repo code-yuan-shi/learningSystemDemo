@@ -41,4 +41,13 @@ public class AdminServiceImpl implements AdminService {
     public int deleteByPrimaryKey(Integer adminid) {
         return adminMapper.deleteByPrimaryKey(adminid);
     }
+
+    @Override
+    public String login(Integer adminid, String password) {
+        Admin admin = adminMapper.selectAdminByIdAndPass(adminid, password);
+        if (admin != null) { //登录成功
+            return "index";
+        }
+        return "login";  //失败--后续添加提示信息等
+    }
 }

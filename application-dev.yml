@@ -17,6 +17,15 @@ spring:
         login-username: druid
         login-password: druid
 
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false #关闭缓存
+    encoding: UTF-8
+    mode: HTML5
+
+
+
 mybatis:
 #  mapper-locations: classpath:mapper/*Mapper.xml
    mapper-locations: classpath:mappers/*Mapper.xml

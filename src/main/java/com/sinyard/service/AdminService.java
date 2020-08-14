@@ -41,4 +41,12 @@ public interface AdminService {
      * @return
      */
     public int deleteByPrimaryKey(Integer adminid);
+
+    /**
+     * 登录功能
+     * @param adminid 管理员编号
+     * @param password 密码
+     * @return
+     */
+    String login(Integer adminid,String password);
 }
