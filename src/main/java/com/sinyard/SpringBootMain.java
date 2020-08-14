@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2020-08-13 14:03
  * @desc springBoot启动类
  */
-@SpringBootApplication
 @MapperScan(value = {"com.sinyard.dao"})
+@SpringBootApplication
 public class SpringBootMain {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootMain.class, args);
