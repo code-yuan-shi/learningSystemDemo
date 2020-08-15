@@ -4,8 +4,6 @@ import com.sinyard.entity.Admin;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-@Component
 public interface AdminMapper {
 
     List<Admin> selectAll();
@@ -17,4 +15,6 @@ public interface AdminMapper {
     Admin selectByPrimaryKey(Integer adminid);
 
     int updateByPrimaryKey(Admin record);
+
+    Admin selectAdminByIdAndPass(Integer adminid, String adminpassword);
 }

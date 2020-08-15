@@ -31,4 +31,9 @@
     select adminID, adminName, adminPassword
     from admin
   </select>
+  <select id="selectAdminByIdAndPass" resultMap="BaseResultMap">
+    select adminID, adminName, adminPassword
+    from admin
+    where adminID = #{adminid,jdbcType=INTEGER} and adminPassword = #{adminpassword,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -1,5 +1,4 @@
 package com.sinyard.controller;
-
 import com.sinyard.entity.Admin;
 import com.sinyard.service.AdminService;
 import io.swagger.annotations.Api;
@@ -16,11 +15,21 @@ import java.util.List;
  * @desc
  */
 @Controller
-@RequestMapping(value = "/admin",method = {RequestMethod.POST})
+@RequestMapping(value = "/admin",method = {RequestMethod.POST,RequestMethod.GET})
 @Api(tags = "AdminController",description = "管理员操作")
 public class AdminController {
     @Autowired
-    AdminService adminService;
+    private AdminService adminService;
+
+    @RequestMapping(value = "/test")
+    @ApiOperation("实现管理员登录")
+    public String login(){
+        return "Admin/index";
+       /* String statu = adminService.login(adminid,adminpassword);
+        System.out.println(statu);
+        return statu;*/
+    }
+
     @RequestMapping(value = "/selectAll")
     @ApiOperation("查询所有用户")
     @ResponseBody
