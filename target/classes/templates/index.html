@@ -18,6 +18,7 @@
     <link id="layuicss-skincodecss" rel="stylesheet" href="/css/modules/code.css" media="all">
     <link id="layuicss-layer" rel="stylesheet" href="/css/modules/layer/default/layer.css" media="all">
     <link rel="preload" href="/modules/integrator.js" as="script">
+    <script type="text/javascript" src="/jquery-3.2.0.min.js"></script>
     <script type="text/javascript" src="/modules/global.js"></script>
     <script type="text/javascript" src="/modules/integrator.js"></script>
     <script src="/modules/hm.js"></script>
@@ -29,36 +30,15 @@
         <a class="logo" href="https://www.layui.com/">
             <img src="/images/logo.png" alt="layui">
         </a>
-        <div class="layui-form component" lay-filter="LAY-site-header-component">
-            <select lay-search="" lay-filter="component">
-                <option value="" selected="selected">搜索组件或模块</option>
 
-            </select>
-            <div class="layui-form-select">
-                <div class="layui-select-title"><input type="text" placeholder="搜索组件或模块" class="layui-input"><i
-                        class="layui-edge"></i></div>
-                <dl class="layui-anim layui-anim-upbit">
-                    <dd lay-value="" class="layui-select-tips">搜索组件或模块</dd>
-                    <dd lay-value="element/layout.html" class="">grid 栅格布局</dd>
-                </dl>
-            </div>
-        </div>
         <ul class="layui-nav">
             <li class="layui-nav-item layui-this">
-                <a href="https://www.layui.com/doc/">文档<!--  --></a>
+                <a href="">学习<!--  --></a>
             </li>
-            <li class="layui-nav-item ">
-                <a href="https://www.layui.com/demo/">示例<!-- <span class="layui-badge-dot"></span> --></a>
-            </li>
-            <!--
-            <li class="layui-nav-item layui-hide-xs">
-              <a href="//fly.layui.com/" target="_blank">社区</a>
-            </li>
-            -->
 
-            <li class="layui-nav-item">
+            <!--<li class="layui-nav-item">
                 <a href="javascript:;">
-                    <!--<span class="layui-badge-dot" style="left:0; right: auto; margin: -4px 0 0 5px;"></span>-->
+                    &lt;!&ndash;<span class="layui-badge-dot" style="left:0; right: auto; margin: -4px 0 0 5px;"></span>&ndash;&gt;
                     周边<span class="layui-nav-more"></span></a>
                 <dl class="layui-nav-child layui-anim layui-anim-upbit"
                     style="left: auto; right: -22px; text-align: center;">
@@ -75,7 +55,7 @@
                         <a href="https://fly.layui.com/" target="_blank">社区交流</a>
                         <hr>
                     </dd>
-                    <dd lay-unselect=""><a href="https://www.layui.com/admin/" target="_blank">后台模板 <span
+                    <dd lay-unselect=""><a href="" target="_blank">后台 <span
                             class="layui-badge-dot" style="margin-top: -5px;"></span></a></dd>
                     <dd lay-unselect=""><a href="https://www.layui.com/layim/" target="_blank">即时聊天</a>
                         <hr>
@@ -99,10 +79,10 @@
                     </dd>
                 </dl>
             </li>
-
+-->
 
             <li class="layui-nav-item layui-hide-xs" lay-unselect="">
-                <a href="https://www.layui.com/admin/" target="_blank">后台模板 <span class="layui-badge-dot"
+                <a href="" target="_blank">后台 <span class="layui-badge-dot"
                                                                                   style="margin-top: -5px;"></span></a>
             </li>
             <span class="layui-nav-bar" style="width: 0px; left: 270px; opacity: 0; top: 55px;"></span></ul>
@@ -113,20 +93,6 @@
 <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-<div class="layui-layer layui-layer-page layui-layer-dir" id="layui-layer1" type="page" times="1" showtime="0"
-     contype="object" style="z-index: 19891015; top: 265px; left: 1389px; margin-left: -15px;">
-    <div class="layui-layer-title" style="cursor: move;">目录</div>
-    <div id="" class="layui-layer-content">
-        <ul class="site-dir layui-layer-wrap" style="display: block;">
-            <li><a href="#get"><cite>获得 layui</cite></a></li>
-            <li><a href="#quickstart"><cite>快速上手</cite></a></li>
-            <li><a href="#classical"><cite>何为「经典」</cite></a></li>
-            <li><a href="#modules"><cite>模块化用法</cite></a></li>
-            <li><a href="#allmodules"><cite>全模块用法</cite> <span class="layui-badge-dot"></span></a></li>
-        </ul>
-    </div>
-    <span class="layui-layer-setwin"><a class="layui-layer-ico layui-layer-close layui-layer-close1"
-                                        href="javascript:;"></a></span><span class="layui-layer-resize"></span></div>
 <div class="layui-main site-inline">
     <!-- 左边导航 -->
     <div class="site-tree">
@@ -151,7 +117,7 @@
             <li><h2 th:text="${left.coursetitle}"></h2></li>
 
             <li th:each="next : ${left.listCourse}" class="site-tree-noicon layui-this">
-                <a href="">
+                <a th:attr = "onclick=${'contentData('+next.courseid+')'}">
                     <cite th:text="${next.coursetitle}"></cite>
                     <em th:text="${next.coursecontent}"></em>
                 </a>
@@ -161,7 +127,7 @@
     </div>
 
     <!-- 内容页 -->
-    <div class="site-content">
+    <div id="content" th:utext="${course.coursecontent}" class="site-content">
 
     </div>
 </div>
@@ -180,24 +146,12 @@
         </p>
         <div class="site-union">
             <p class="site-union-desc">
-        <span>
-          感谢以下平台提供云加速支持
-        </span>
+
             </p>
-            <p>
-                <a href="https://console.upyun.com/register/?invite=SJ0wu6g2-" target="_blank" rel="nofollow"
-                   sponsor="upyun">
-                    <img src="images/upyun.png">
-                </a>
-                <a href="https://www.maoyuncloud.com/?from=layui" target="_blank" rel="nofollow" sponsor="maoyun">
-                    <img src="images/dsd.png">
-                </a>
-            </p>
+
         </div>
     </div>
 </div>
-
-
 <script async=""
         src="lay/modules/adsbygoogle.js"></script>
 <div class="site-tree-mobile layui-hide">
@@ -207,19 +161,14 @@
 <script src="layui.js"
         charset="utf-8"></script>
 <script>
-    window.global = {
-        pageType: 'doc'
-        , preview: function () {
-            var preview = document.getElementById('LAY_preview');
-            return preview ? preview.innerHTML : '';
-        }()
-    };
-    layui.config({
-        base: '//res.layui.com/static/lay/modules/layui/'
-        , version: '1596625002448'
-    }).use('global');
+   function contentData(pid){
+    $.get('content-data',{pid:pid},function(data){
+        $("#content").empty();
+        console.log(data);
+         $("#content").html(data.coursecontent);
+    })
+   }
 </script>
-
 
 <script>
     var _hmt = _hmt || [];

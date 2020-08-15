@@ -12,4 +12,5 @@ import java.util.List;
  */
 public interface CourseService {
     List<Course> selectByExampleWithBLOBs(CourseExample example);
+    Course selectByPrimaryKey(Integer courseid);
 }

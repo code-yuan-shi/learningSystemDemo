@@ -24,4 +24,9 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> selectByExampleWithBLOBs(CourseExample example) {
         return courseMapper.selectByExampleWithBLOBs(example);
     }
+
+    @Override
+    public Course selectByPrimaryKey(Integer courseid) {
+        return courseMapper.selectByPrimaryKey(courseid);
+    }
 }
