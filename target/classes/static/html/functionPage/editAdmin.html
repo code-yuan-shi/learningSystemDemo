@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/layui.css" media="all">
+    <script src="/layui.js"></script>
+</head>
+<body>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <form class="layui-form" action="/admin/selectById" lay-filter="editExample" >
+        <div class="layui-card-body">
+            <form class="layui-form" action="">
+                <div class="layui-row">
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">编号：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" id="id" required  lay-verify="required" placeholder="请输入编号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">姓名：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" id="name" required lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="des" id="des" required  lay-verify="required" placeholder="请输入详情" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+</div>
+<script>
+    layui.config({
+        base: '../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(["index","form"],function(){
+        var $ = layui.$
+            ,admin = layui.admin
+            ,form = layui.form;
+
+        //请求ajax获取机器人信息
+        admin.req({
+            url:"http://10.0.65.101:8091/app/mock/18/robot/show",  //json数据，开发时传入真实接口
+            success:function(data){
+                form.val("editExample", data);
+            }
+        })
+    });
+</script>
+
+</body>
+</html>
