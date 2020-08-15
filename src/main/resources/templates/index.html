@@ -236,10 +236,10 @@
 
             <li><h2 th:text="${left.coursetitle}"></h2></li>
 
-            <li class="site-tree-noicon layui-this">
+            <li th:each="next : ${left.listCourse}" class="site-tree-noicon layui-this">
                 <a href="">
-                    <cite>1</cite>
-                    <em>1</em>
+                    <cite th:text="${next.coursetitle}"></cite>
+                    <em th:text="${next.coursecontent}"></em>
                 </a>
             </li>
         </ul>

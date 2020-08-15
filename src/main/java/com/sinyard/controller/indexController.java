@@ -32,12 +32,11 @@ public class indexController {
         criteria.andPidEqualTo(0);
         List<Course> courseList = courseService.selectByExampleWithBLOBs(example);
         for (Course cl : courseList){
-            CourseExample example2 = new CourseExample();
-            CourseExample.Criteria criteria2 = example.createCriteria();
-            criteria2.andLeveEqualTo(2);
-            criteria2.andPidEqualTo(cl.getCourseid());
-            List<Course> next = courseService.selectByExampleWithBLOBs(example2);
+            criteria.andLeveEqualTo(2);
+            criteria.andPidEqualTo(cl.getCourseid());
+            List<Course> next = courseService.selectByExampleWithBLOBs(example);
             cl.setListCourse(next);
+            System.out.println(next);
         }
         System.out.println(courseList);
         model.addAttribute("courseList",courseList);
