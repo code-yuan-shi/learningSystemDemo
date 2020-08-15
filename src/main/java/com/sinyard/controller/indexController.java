@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,18 +26,18 @@ public class indexController {
 
     @RequestMapping(value = "/index")
     public String index(Model model){
-        HashMap<String, Object> mun = new HashMap<String, Object>();
         CourseExample example = new CourseExample();
         CourseExample.Criteria criteria = example.createCriteria();
         criteria.andLeveEqualTo(1);
         criteria.andPidEqualTo(0);
         List<Course> courseList = courseService.selectByExampleWithBLOBs(example);
         for (Course cl : courseList){
-            criteria.andLeveEqualTo(2);
-            criteria.andPidEqualTo(cl.getCourseid());
-            List<Course> next = courseService.selectByExampleWithBLOBs(example);
+            CourseExample example2 = new CourseExample();
+            CourseExample.Criteria criteria2 = example2.createCriteria();
+            criteria2.andLeveEqualTo(2);
+            criteria2.andPidEqualTo(cl.getCourseid());
+            List<Course> next = courseService.selectByExampleWithBLOBs(example2);
             cl.setListCourse(next);
-            System.out.println(next);
         }
         System.out.println(courseList);
         model.addAttribute("courseList",courseList);
