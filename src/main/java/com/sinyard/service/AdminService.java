@@ -17,6 +17,16 @@ public interface AdminService {
     public List<Admin> selectAll();
 
     /**
+     *统计管理员数目
+     * @return
+     */
+    public Integer countAdmin();
+    /**
+     * 模糊查询管理员
+     * @return
+     */
+    public List<Admin> selectLike(Admin record);
+    /**
      * 根据ID查询管理员
      * @param adminid
      * @return
@@ -43,7 +53,7 @@ public interface AdminService {
     public int deleteByPrimaryKey(Integer adminid);
 
     /**
-     * 登录功能
+     * 实现登录功能
      * @param adminid 管理员编号
      * @param password 密码
      * @return

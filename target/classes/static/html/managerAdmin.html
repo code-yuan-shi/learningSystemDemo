@@ -13,25 +13,23 @@
     <div class="layui-form-item layui-input-inline">
         <label class="layui-form-label">管理员ID</label>
         <div class="layui-input-block">
-            <input type="text" name="" placeholder="请输入ID" autocomplete="on" class="layui-input">
+            <input type="text" id="adminid" name="adminid" placeholder="请输入ID" autocomplete="on" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item layui-input-inline">
         <label class="layui-form-label">管理员姓名</label>
         <div class="layui-input-block">
-            <input type="text" name="" placeholder="请输入姓名" autocomplete="on" class="layui-input">
+            <input type="text" id="adminname" name="adminname" placeholder="请输入姓名" autocomplete="on" class="layui-input">
         </div>
-    </div>
-    <div class="layui-form-item  layui-inline">
-        <button class="layui-btn" lay-submit lay-filter="searchAll">查询所有</button>
     </div>
     <div class="layui-form-item layui-inline">
-        <button class="layui-btn" lay-submit lay-filter="searchLike">模糊查询</button>
+        <button class="layui-btn" lay-submit lay-filter="searchLike">条件查询</button>
+        <label class="layui-form-label">当条件为空时，查询所有</label>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
-        <div class="layui-form-item layui-inline" style="text-align: right">
-            <a href="#" lay-submit llay-filter="addAdmin" class="layui-btn ">添加管理员</a>
-        </div>
+    <div class="layui-form-item layui-inline" style="text-align: right">
+        <button class="layui-btn" lay-submit lay-filter="addAdmin">添加管理员</button>
+    </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
 </form>
 <table id="demo" lay-filter="test"></table>
@@ -54,6 +52,7 @@
         var table = layui.table;
         var layer = layui.layer;
         var $ = layui.$
+
         //监听提交
         form.on('submit(formDemo)', function(data){
             layer.msg(JSON.stringify(data.field));
@@ -62,28 +61,87 @@
 
         //监听按钮
         form.on('submit(searchAll)', function (data) {
-            layer.msg("点击了查询所有")
+            layer.msg("点击了查询所有");
             return false;
         });
         form.on('submit(searchLike)', function (data) {
-            layer.msg("点击了模糊查询")
+            layer.msg("点击了模糊查询");
+
+            table.reload('tableOne',{
+                method:'post'
+                ,where: { //设定异步数据接口的额外参数，任意设
+                    'adminid': $("#adminid").val(),
+                    'adminname': $("#adminname").val(),
+                }
+            ,page:{
+                curr:1 //重新从第一页开始
+            }
+
+        });
+
+            // $.ajax({
+            //     url : '/admin/selectLike/',
+            //     data: {
+            //         //根据以下来查询，这里后端支持为空
+            //         adminid: $("#adminid").val(),
+            //         adminname: $("#adminname").val(),
+            //     },
+            //     traditional: true,
+            //     type : 'get',
+            //     dataType : 'json',
+            //     success : function(data) {
+            //         if (data.code === 0) {
+            //             console.log(data);
+            //             table.reload("test",function (res) {
+            //                 return{
+            //                     "code": res.data.code,//解析接口状态
+            //                     "msg": res.data.msg, //解析提示文本
+            //                     "count": res.data.total, //解析数据长度
+            //                     "data": res.data.field //解析数据列表
+            //                 };
+            //
+            //             });
+            //             layer.msg(data.code);
+            //         }
+            //     }
+            // });
             return false;
         });
+        form.on('submit(addAdmin)', function (data) {
+            layer.msg("点击了添加管理员");
+            layer.open({
+                type: 2
+                ,title:"添加管理员信息"
+                ,shadeClose: true
+                ,shade:0.3
+                ,offset: "20%"
+                ,area: ['60%', '60%']
+                //    ,btn:  ['确定', '取消']
+                ,content: "functionPage/addAdmin.html"  //传入真实的iframe地址
+                , success: function (layero,index ) {
+                        //do
+                    layer.msg("打开成功");
+                    }
+                });
+            return false;
+        });
+
 
 
         //第一个表格实例
         table.render({
             elem: '#demo'
-            ,height: 312
-            ,url: '/admin/selectAll/' //数据接口
+            ,height: 500
+            ,id: 'tableOne'
+            ,url: '/admin/selectLike/' //数据接口
             ,page: true //开启分页
-            ,paarseData:function (res) { //返回的数据
+            ,paarseData:function (res) { //返回的数据  必须得paarseData，虽然看起来报错
                 res.data.code = 0
                 return{
                     "code": res.data.code,//解析接口状态
                     "msg": res.data.msg, //解析提示文本
                     "count": res.data.total, //解析数据长度
-                    "data": res.data.authors //解析数据列表
+                    "data": res.data.field //解析数据列表
                 };
             }
             ,cols: [[ //表头

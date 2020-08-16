@@ -36,4 +36,24 @@
     from admin
     where adminID = #{adminid,jdbcType=INTEGER} and adminPassword = #{adminpassword,jdbcType=INTEGER}
   </select>
+  <select id="selectLike" resultMap="BaseResultMap" parameterType="com.sinyard.entity.Admin">
+    select * from admin a
+    <where>
+      <if test="adminid!=null and adminid!=''">
+        <bind name="adminid" value="'%'+adminid+'%'"/>
+        and a.adminID like #{adminid,jdbcType=INTEGER}
+      </if>
+      <if test="adminname!=null and adminname!=''">
+        <bind name="adminname" value="'%'+adminname+'%'"/>
+        and a.adminName like #{adminname,jdbcType=VARCHAR}
+      </if>
+      <if test="adminpassword!=null and adminpassword!=''">
+        <bind name="adminpassword" value="'%'+adminpassword+'%'"/>
+        and a.adminPassword like #{adminpassword,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="countAdmin" resultType="java.lang.Integer">
+    select count(*) from admin
+  </select>
 </mapper>

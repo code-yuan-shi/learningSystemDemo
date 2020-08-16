@@ -17,9 +17,20 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
+
     @Override
     public List<Admin> selectAll() {
         return adminMapper.selectAll();
+    }
+
+    @Override
+    public Integer countAdmin() {
+        return adminMapper.countAdmin();
+    }
+
+    @Override
+    public List<Admin> selectLike(Admin record) {
+       return adminMapper.selectLike(record);
     }
 
     @Override

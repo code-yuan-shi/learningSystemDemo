@@ -36,7 +36,7 @@ public class AdminController {
         return statu;
     }
     @RequestMapping(value = "/test")
-    @ApiOperation("实现管理员登录")
+    @ApiOperation("测试类")
     public String logintest(){
         return "Admin/index";
     }
@@ -47,16 +47,39 @@ public class AdminController {
         return "login";
     }
 
+//已经没用了，与模糊查询合并了
+//    @RequestMapping(value = "/selectAll")
+//    @ApiOperation("查询所有用户")
+//    @ResponseBody
+//    public  Map<String, Object>  selectAll() {
+//        Map<String, Object> result = new HashMap<String, Object>();
+//        result.put("code", 0);
+//        result.put("msg", "提示信息");
+//        result.put("count",String.valueOf(adminService.countAdmin())); //后续从数据库统计
+//        result.put("data", adminService.selectAll());
+//        return result;
+//    }
 
-    @RequestMapping(value = "/selectAll")
-    @ApiOperation("查询所有用户")
+    @RequestMapping(value = "/countAdmin")
+    @ApiOperation("统计管理员数量")
     @ResponseBody
-    public  Map<String, Object>  selectAll() {
+    public Integer countAdmin() {
+        Integer count = adminService.countAdmin();
+
+     //   System.out.println(count);
+        return count;
+    }
+
+    @RequestMapping(value = "/selectLike")
+    @ApiOperation("模糊查询用户")
+    @ResponseBody
+    public Map<String, Object> selectLike(Admin record) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", 0);
         result.put("msg", "提示信息");
-        result.put("count","2"); //条数
-        result.put("data", adminService.selectAll());
+        result.put("count",String.valueOf(adminService.countAdmin())); //后续从数据库统计
+        result.put("data", adminService.selectLike(record));
+        System.out.println(result);
         return result;
     }
 
@@ -64,6 +87,8 @@ public class AdminController {
     @ApiOperation("插入管理员")
     @ResponseBody
     public int insert(@RequestBody Admin record) {
+        System.out.println("执行了插入管理员");
+        System.out.println(record);
         return adminService.insert(record);
     }
     @RequestMapping(value = "/selectById")
@@ -76,9 +101,9 @@ public class AdminController {
     @ApiOperation("根据ID修改管理员")
     @ResponseBody
     public int updateByPrimaryKey( Admin record) {
+        System.out.println(record);
         System.out.println("执行了修改管理员");
-        adminService.updateByPrimaryKey(record);
-        return 1;
+        return adminService.updateByPrimaryKey(record);
     }
 
     @RequestMapping(value = "/deleteById")
