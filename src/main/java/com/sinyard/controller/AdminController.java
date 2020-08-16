@@ -76,9 +76,9 @@ public class AdminController {
     @ApiOperation("根据ID修改管理员")
     @ResponseBody
     public int updateByPrimaryKey( Admin record) {
+        System.out.println(record);
         System.out.println("执行了修改管理员");
-        adminService.updateByPrimaryKey(record);
-        return 1;
+        return adminService.updateByPrimaryKey(record);
     }
 
     @RequestMapping(value = "/deleteById")
