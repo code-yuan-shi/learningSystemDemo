@@ -13,4 +13,6 @@ import java.util.List;
 public interface CourseService {
     List<Course> selectByExampleWithBLOBs(CourseExample example);
     Course selectByPrimaryKey(Integer courseid);
+    int insertSelective(Course record);
+    int deleteByPrimaryKey(Integer courseid);
 }

@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Controller
 @Api(value = "indexController",description = "主页")
-public class indexController {
+public class IndexController {
     @Autowired
     private CourseService courseService;
 

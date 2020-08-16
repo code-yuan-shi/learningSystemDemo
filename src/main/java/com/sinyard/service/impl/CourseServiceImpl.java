@@ -29,4 +29,14 @@ public class CourseServiceImpl implements CourseService {
     public Course selectByPrimaryKey(Integer courseid) {
         return courseMapper.selectByPrimaryKey(courseid);
     }
+
+    @Override
+    public int insertSelective(Course record) {
+        return courseMapper.insert(record);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(Integer courseid) {
+        return courseMapper.deleteByPrimaryKey(courseid);
+    }
 }
