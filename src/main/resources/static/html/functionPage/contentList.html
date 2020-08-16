@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/layui.css" media="all">
+    <script src="/modules/layer.js"></script>
+    <script src="/layui.js"></script>
+    <script src="/modules/jquery.js"></script>
+</head>
+<body>
+<form class="layui-form layui-form-pane " > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+    <div class="layui-form-item layui-input-inline">
+        <label class="layui-form-label">内容ID</label>
+        <div class="layui-input-block">
+            <input type="text" name="courseid" placeholder="请输入ID" autocomplete="on" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-input-inline">
+        <label class="layui-form-label">内容标题</label>
+        <div class="layui-input-block">
+            <input type="text" name="coursetitle" placeholder="内容标题" autocomplete="on" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-inline">
+        <button class="layui-btn" lay-submit lay-filter="searchLike">查询</button>
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+    <div class="layui-form-item layui-inline" style="text-align: right">
+        <a href="#" lay-submit id="addTitle" class="layui-btn ">添加内容</a>
+    </div>
+    <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+</form>
+<table id="demo" lay-filter="test"></table>
+<!--添加toolbar按钮实现编辑 -->
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">内容详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+
+    <!-- 这里同样支持 laytpl 语法，如： -->
+    {{#  if(d.auth > 2){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="check">审核</a>
+    {{#  } }}
+</script>
+
+<script>
+    //Demo
+    layui.use(['form','table','layer'], function(){
+    var query = window.location.search.substring(1);
+    var courseid = query.split("=")[1];
+        var form = layui.form;
+        var table = layui.table;
+        var layer = layui.layer;
+        var $ = layui.$
+        //监听提交
+        form.on('submit(searchLike)', function (data) {
+            console.log(data.field);
+             getDate(data.field);
+            return false;
+        });
+
+         getDate('');
+        //第一个表格实例
+        function getDate(data){
+            table.render({
+                elem: '#demo'
+                ,height: 312
+                ,url: '/course/content-list?courseid='+courseid //数据接口
+                ,page: true //开启分页
+                ,paarseData:function (res) { //返回的数据
+                    res.data.code = 0
+                    return{
+                        "code": res.data.code,//解析接口状态
+                        "msg": res.data.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.authors //解析数据列表
+                    };
+                }
+                ,cols: [[ //表头
+                     {field: 'courseid', title: 'ID', sort: true, fixed: 'left'}
+                    ,{field: 'coursetitle', title: '标题'}
+                    ,{field: 'coursecontent', title: '内容'}
+                    ,{fixed: 'right', width:300, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                ]]
+            });
+        }
+
+        //表格按钮监听工具条
+        table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var editList=[];
+
+            adminid = data.id;//获取选中行的id
+            var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+            $.each(data, function (name, value) {
+                editList.push(value); //将数据放进数据中，下面用要到
+            });
+            if(layEvent === 'detail'){ //查看
+                //layer.alert('编号：'+data.courseid+'<br>姓名：'+data.coursetitle+'<br>密码：'+data.coursecontent);
+                //do somehing
+                layer.open({
+                  type: 1,
+                  title: data.coursetitle+'-详情',
+                  shadeClose: true,
+                  shade: 0.8,
+                  area: ['99%', '99%'],
+                  shadeClose: false,
+                  content: data.coursecontent
+              });
+            } else if(layEvent === 'del'){ //删除
+                layer.confirm('真的删除标题为：'+data.coursetitle+"吗？", function(index){
+                    //向服务端发送删除指令
+                        $.ajax({
+                            url:'/course/deleteById/',
+                            type:'get',
+                            data:{'courseid':data.courseid,'action':'content'}, //向服务端发送删除的id
+                            success:function (suc) {
+                                if (suc == 1) {
+                                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                    layer.close(index);
+                                    console.log(index);
+                                    layer.msg("删除成功",{icon: 1});
+                                }
+                                else{
+                                    layer.msg("删除失败",{icon: 5});
+                                }
+                            }
+                        });
+                    layer.close(index);
+                });
+
+            } else if(layEvent === 'edit'){ //编辑
+                //do something
+                layer.open({
+                    type: 2
+                    ,title:"编辑"+data.coursecontent
+                    ,shadeClose: true
+                    ,shade:0.8
+                    ,area: ['99%', '99%']
+                //  ,btn:  ['确定', '取消']
+                    ,content: "updateContent.html?courseid="+data.courseid  //传入真实的iframe地址
+
+                });
+            } else if(layEvent === 'LAYTABLE_TIPS'){
+                layer.alert('Hi，头部工具栏扩展的右侧图标。');
+            }
+        });
+        $("#addTitle").click(function(){
+            //input here
+            layer.open({
+              type: 2,
+              title: '添加内容',
+              shadeClose: true,
+              shade: 0.8,
+              area: ['99%', '99%'],
+              shadeClose: false,
+              content: 'addContent.html?id='+courseid //数据接口
+            });
+           //input above
+          });
+    });
+</script>
+</body>
+</html>
