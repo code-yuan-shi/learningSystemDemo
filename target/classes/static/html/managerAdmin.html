@@ -7,7 +7,6 @@
     <script src="/modules/layer.js"></script>
     <script src="/layui.js"></script>
     <script src="/modules/jquery.js"></script>
-
 </head>
 <body>
 <form class="layui-form layui-form-pane " > <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
@@ -24,14 +23,14 @@
         </div>
     </div>
     <div class="layui-form-item  layui-inline">
-        <button class="layui-btn" lay-submit lay-filter="*">查询所有</button>
+        <button class="layui-btn" lay-submit lay-filter="searchAll">查询所有</button>
     </div>
     <div class="layui-form-item layui-inline">
-        <button class="layui-btn" lay-submit lay-filter="*">模糊查询</button>
+        <button class="layui-btn" lay-submit lay-filter="searchLike">模糊查询</button>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
         <div class="layui-form-item layui-inline" style="text-align: right">
-            <a href="#" class="layui-btn ">添加管理员</a>
+            <a href="#" lay-submit llay-filter="addAdmin" class="layui-btn ">添加管理员</a>
         </div>
     <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
 </form>
@@ -53,10 +52,21 @@
     layui.use(['form','table','layer'], function(){
         var form = layui.form;
         var table = layui.table;
+        var layer = layui.layer;
         var $ = layui.$
         //监听提交
         form.on('submit(formDemo)', function(data){
             layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+
+        //监听按钮
+        form.on('submit(searchAll)', function (data) {
+            layer.msg("点击了查询所有")
+            return false;
+        });
+        form.on('submit(searchLike)', function (data) {
+            layer.msg("点击了模糊查询")
             return false;
         });
 
@@ -88,9 +98,13 @@
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var editList=[];
+
             adminid = data.id;//获取选中行的id
             var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-
+            $.each(data, function (name, value) {
+                editList.push(value); //将数据放进数据中，下面用要到
+            });
             if(layEvent === 'detail'){ //查看
                 layer.alert('编号：'+data.adminid+'<br>姓名：'+data.adminname+'<br>密码：'+data.adminpassword);
                 //do somehing
@@ -120,37 +134,29 @@
                 //do something
                 layer.open({
                     type: 2
+                    ,title:"编辑管理员信息"
                     ,shadeClose: true
                     ,shade:0.3
                     ,offset: "20%"
                     ,area: ['60%', '60%']
-                    ,btn:  ['确定', '取消']
-                    ,content: "functionPage/editAdmin.html?adminid="+ adminid  //传入真是的iframe地址
-                    , yes: function (index, layer) {
-                        var field = data.field; //获取提交的字段
-                            admin.req({
-                                type : 'post',
-                                url:'/admin/updateById/',//接口地址
-                                data:data,
-                                success: function (data) {
-                                    if (data.code == 0) {  //0为成功状态
-                                        location.reload();
-                                    }
-                                    layer.msg(data.msg);
-                                },
-                                error: function () {
-                                    layer.msg('出现错误');
-                                    return false;
+                //    ,btn:  ['确定', '取消']
+                    ,content: "functionPage/editAdmin.html?adminid="+ adminid  //传入真实的iframe地址
+                    , success: function (layero,index ){
+                    var body = layer.getChildFrame('body', index);
+                    var iframeWin = window[layero.find('iframe')[0]['name']];//得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    var inputList = body.find("input"); //获取到子窗口的所有的input标签
+                    for (var i = 0; i < inputList.length; i++) {
+                        $(inputList[i]).val(editList[i]);  //遍历子窗口的input 标签，把值放进去
 
-                                }
-                            })
-                        layer.close(index); //完成操作后关闭弹窗
                     }
+                }
+                      //  layer.close(index); //完成操作后关闭弹窗
                 });
             } else if(layEvent === 'LAYTABLE_TIPS'){
                 layer.alert('Hi，头部工具栏扩展的右侧图标。');
             }
         });
+
     });
 </script>
 </body>

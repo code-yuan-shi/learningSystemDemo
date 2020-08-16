@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -24,7 +24,6 @@
 
                 <li class="layui-nav-item"><a href="">
                     你好，
-
                     <dl class="layui-nav-child"> <!-- 二级菜单 -->
                         <dd><a href="">个人资料</a></dd>
                         <dd><a href="#" data-url="changePass" data-id="01" data-title="修改密码"  class="site-demo-active" data-type="tabAdd">修改密码</a></dd>
@@ -44,27 +43,27 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a href="javascript:;">学生管理</a> <!--默认展开-->
                     <dl class="layui-nav-child">
-                        <dd><a href="#" data-url="allEmp" data-id="11" data-title="基本信息"  class="site-demo-active" data-type="tabAdd">基本信息</a></dd>
-                        <dd><a href="#" data-url="heTong" data-title="合同信息"  data-id="22" class="site-demo-active" data-type="tabAdd">合同信息</a></dd>
-                        <dd><a href="#" data-url="eduBack" data-id="33" data-title="学历信息"  class="site-demo-active" data-type="tabAdd">学历信息</a></dd> <!--跳转项-->
+                        <dd><a href="#" data-url="/html/managerStudent" data-id="11" data-title="学生信息"  class="site-demo-active" data-type="tabAdd">学生信息</a></dd>
+<!--                        <dd><a href="#" data-url="heTong" data-title="合同信息"  data-id="22" class="site-demo-active" data-type="tabAdd">合同信息</a></dd>-->
+<!--                        <dd><a href="#" data-url="eduBack" data-id="33" data-title="学历信息"  class="site-demo-active" data-type="tabAdd">学历信息</a></dd> &lt;!&ndash;跳转项&ndash;&gt;-->
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">章节管理</a>
+                    <a href="javascript:;">课程管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="#" data-url="numQuery" data-title="编号查询"  data-id="44" class="site-demo-active" data-type="tabAdd">添加章节</a></dd>
-                        <dd><a href="#" data-url="nameQuery" data-title="姓名查询"  data-id="55" class="site-demo-active" data-type="tabAdd">按姓名查询</a></dd>
+                        <dd><a href="#" data-url="/html/managerTitle" data-title="标题管理"  data-id="44" class="site-demo-active" data-type="tabAdd">标题管理</a></dd>
+                        <dd><a href="#" data-url="/html/managerContent" data-title="内容查询"  data-id="55" class="site-demo-active" data-type="tabAdd">内容管理</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">内容管理</a>
+                    <a href="javascript:;">管理员管理</a>
                     <dl class="layui-nav-child" id="guanli" runat="server">
-                        <dd><a href="#" data-url="empAdd" data-title="添加员工"  data-id="66" class="site-demo-active" data-type="tabAdd">添加员工</a></dd>
-                        <dd><a href="#" data-url="empUpdate" data-title="修改员工"  data-id="77" class="site-demo-active" data-type="tabAdd">修改员工</a></dd>
-                        <dd><a href="#" data-url="empDelete" data-title="删除员工"  data-id="88" class="site-demo-active" data-type="tabAdd">删除员工</a></dd>
+                        <dd><a href="#" data-url="/html/managerAdmin" data-title="管理员信息"  data-id="66" class="site-demo-active" data-type="tabAdd">管理员信息</a></dd>
+                        <dd><a href="#" data-url="/html/managerSet" data-title="管理员级别"  data-id="77" class="site-demo-active" data-type="tabAdd">管理员级别</a></dd>
+<!--                        <dd><a href="#" data-url="empDelete" data-title="删除员工"  data-id="88" class="site-demo-active" data-type="tabAdd">删除员工</a></dd>-->
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="#" data-url="dateLook" data-title="系统管理"  data-id="99" class="site-demo-active" data-type="tabAdd">数据统计</a></li>
+                <li class="layui-nav-item"><a href="#" data-url="html/managerSystem" data-title="系统管理"  data-id="99" class="site-demo-active" data-type="tabAdd">数据统计</a></li>
             </ul>
 
 
@@ -98,8 +97,8 @@
     </div>
 </div>
 <script src="../layui.js"></script>
-<script src="JS/Index.js"></script>
-<SCRIPT SRC="JS/jquery.js"></SCRIPT>
+<script src="/JS/Index.js"></script>
+<SCRIPT SRC="/JS/jquery.js"></SCRIPT>
 <script>
     //JavaScript代码区域
     layui.use('element', function(){

@@ -4,11 +4,15 @@ import com.sinyard.entity.Admin;
 import com.sinyard.service.AdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author sinyard
@@ -23,20 +27,34 @@ public class AdminController {
     private AdminService adminService;
 //    @Autowired
 //    private Admin admin;
-    @RequestMapping(value = "/test")
+    @RequestMapping(value = "/loginCheck")
     @ApiOperation("实现管理员登录")
     public String login(@RequestParam Integer adminid, @RequestParam String adminpassword){
-//        return "index";
         String statu = adminService.login(adminid,adminpassword);
         System.out.println(statu);
+        //创建session对象
+//        HttpSession session = request.getSession(true);
+//        session.setAttribute("USER_INFO",userInfo);
         return statu;
     }
+
+    @RequestMapping(value = "/login")
+    @ApiOperation("实现访问管理员登录页")
+    public String login(){
+        return "login";
+    }
+
 
     @RequestMapping(value = "/selectAll")
     @ApiOperation("查询所有用户")
     @ResponseBody
-    public List<Admin> selectAll() {
-        return adminService.selectAll();
+    public  Map<String, Object>  selectAll() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 0);
+        result.put("msg", "提示信息");
+        result.put("count","2"); //条数
+        result.put("data", adminService.selectAll());
+        return result;
     }
 
     @RequestMapping(value = "/insert")
@@ -54,15 +72,19 @@ public class AdminController {
     @RequestMapping(value = "/updateById" )
     @ApiOperation("根据ID修改管理员")
     @ResponseBody
-    public int updateByPrimaryKey(@RequestBody Admin record) {
-        return adminService.updateByPrimaryKey(record);
+    public int updateByPrimaryKey( Admin record) {
+        System.out.println("执行了修改管理员");
+        adminService.updateByPrimaryKey(record);
+        return 1;
     }
 
     @RequestMapping(value = "/deleteById")
     @ApiOperation("根据ID删除管理员")
     @ResponseBody
     public int deleteByPrimaryKey(Integer adminid) {
-        return adminService.deleteByPrimaryKey(adminid);
+        adminService.deleteByPrimaryKey(adminid);
+        int suc = 200;
+        return suc;
     }
 
 }
