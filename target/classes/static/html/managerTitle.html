@@ -52,38 +52,37 @@
         var layer = layui.layer;
         var $ = layui.$
         //监听提交
-        form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
-            return false;
-        });
         form.on('submit(searchLike)', function (data) {
-            layer.msg("点击了模糊查询")
+            console.log(data.field);
+             getDate(data.field);
             return false;
         });
 
-
+         getDate('');
         //第一个表格实例
-        table.render({
-            elem: '#demo'
-            ,height: 312
-            ,url: '/course/title/' //数据接口
-            ,page: true //开启分页
-            ,paarseData:function (res) { //返回的数据
-                res.data.code = 0
-                return{
-                    "code": res.data.code,//解析接口状态
-                    "msg": res.data.msg, //解析提示文本
-                    "count": res.data.total, //解析数据长度
-                    "data": res.data.authors //解析数据列表
-                };
-            }
-            ,cols: [[ //表头
-                 {field: 'courseid', title: 'ID', sort: true, fixed: 'left'}
-                ,{field: 'coursetitle', title: '标题'}
-                ,{field: 'coursecontent', title: '描述'}
-                ,{fixed: 'right', width:300, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
-            ]]
-        });
+        function getDate(data){
+            table.render({
+                elem: '#demo'
+                ,height: 312
+                ,url: '/course/title' //数据接口
+                ,page: true //开启分页
+                ,paarseData:function (res) { //返回的数据
+                    res.data.code = 0
+                    return{
+                        "code": res.data.code,//解析接口状态
+                        "msg": res.data.msg, //解析提示文本
+                        "count": res.data.total, //解析数据长度
+                        "data": res.data.authors //解析数据列表
+                    };
+                }
+                ,cols: [[ //表头
+                     {field: 'courseid', title: 'ID', sort: true, fixed: 'left'}
+                    ,{field: 'coursetitle', title: '标题'}
+                    ,{field: 'coursecontent', title: '描述'}
+                    ,{fixed: 'right', width:300, align:'center', toolbar: '#barDemo'} //这里的toolbar值是模板元素的选择器
+                ]]
+            });
+        }
 
         //表格按钮监听工具条
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
@@ -97,15 +96,24 @@
                 editList.push(value); //将数据放进数据中，下面用要到
             });
             if(layEvent === 'detail'){ //查看
-                layer.alert('编号：'+data.courseid+'<br>姓名：'+data.coursetitle+'<br>密码：'+data.coursecontent);
+                //layer.alert('编号：'+data.courseid+'<br>姓名：'+data.coursetitle+'<br>密码：'+data.coursecontent);
                 //do somehing
+                layer.open({
+                  type: 2,
+                  title: '内容列表',
+                  shadeClose: true,
+                  shade: 0.8,
+                  area: ['99%', '99%'],
+                  shadeClose: false,
+                  content: 'functionPage/contentList.html?courseid='+data.courseid
+              });
             } else if(layEvent === 'del'){ //删除
                 layer.confirm('真的删除标题为：'+data.coursetitle+"吗？", function(index){
                     //向服务端发送删除指令
                         $.ajax({
                             url:'/course/deleteById/',
                             type:'get',
-                            data:{'courseid':data.courseid}, //向服务端发送删除的id
+                            data:{'courseid':data.courseid,'action':'title'}, //向服务端发送删除的id
                             success:function (suc) {
                                 if (suc == 1) {
                                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
@@ -125,22 +133,13 @@
                 //do something
                 layer.open({
                     type: 2
-                    ,title:"编辑管理员信息"
+                    ,title:"编辑标题信息"
                     ,shadeClose: true
                     ,shade:0.3
                     ,offset: "20%"
-                    ,area: ['60%', '60%']
+                    ,area: ['60%', '50%']
                 //    ,btn:  ['确定', '取消']
-                    ,content: "functionPage/editAdmin.html?adminid="+ adminid  //传入真实的iframe地址
-                    , success: function (layero,index ){
-                    var body = layer.getChildFrame('body', index);
-                    var iframeWin = window[layero.find('iframe')[0]['name']];//得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-                    var inputList = body.find("input"); //获取到子窗口的所有的input标签
-                    for (var i = 0; i < inputList.length; i++) {
-                        $(inputList[i]).val(editList[i]);  //遍历子窗口的input 标签，把值放进去
-
-                    }
-                }
+                    ,content: "functionPage/updateTitle.html?courseid="+data.courseid //传入真实的iframe地址
                       //  layer.close(index); //完成操作后关闭弹窗
                 });
             } else if(layEvent === 'LAYTABLE_TIPS'){
@@ -154,7 +153,7 @@
               title: '添加标题',
               shadeClose: true,
               shade: 0.8,
-              area: ['580px', '90%'],
+              area: ['580px', '250px'],
               shadeClose: false,
               content: 'functionPage/editTitle.html' //iframe的url
             });

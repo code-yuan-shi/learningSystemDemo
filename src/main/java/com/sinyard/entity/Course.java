@@ -10,11 +10,21 @@ public class Course implements Serializable {
 
     private Integer leve;
 
+    private String desc;
+
     private String coursetitle;
 
     private String coursecontent;
 
     private List<Course> listCourse;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public List<Course> getListCourse() {
         return listCourse;

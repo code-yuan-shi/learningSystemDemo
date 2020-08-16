@@ -130,7 +130,9 @@
     values (#{courseid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{leve,jdbcType=INTEGER}, 
       #{coursetitle,jdbcType=VARCHAR}, #{coursecontent,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sinyard.entity.Course">
+  <insert id="insertSelective" parameterType="com.sinyard.entity.Course" useGeneratedKeys="true"
+          keyColumn="courseID"
+          keyProperty="courseid">
     insert into course
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="courseid != null">

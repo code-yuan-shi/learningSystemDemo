@@ -15,4 +15,6 @@ public interface CourseService {
     Course selectByPrimaryKey(Integer courseid);
     int insertSelective(Course record);
     int deleteByPrimaryKey(Integer courseid);
+    int deleteByExample(CourseExample example);
+    int updateByPrimaryKeySelective(Course record);
 }
