@@ -13,13 +13,13 @@
 <div style="padding: 20px; background-color: #F2F2F2;">
         <div class="layui-card-body">
 <!--            th:action="@{/admin/updateById}"-->
-            <form class="layui-form"  action="/admin/updateById"  method="post">
+            <form class="layui-form"  action="#"  method="post">
                 <div class="layui-row">
                     <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                         <div class="layui-form-item">
                             <label class="layui-form-label">编号：</label>
                             <div class="layui-input-block">
-                                <input type="text" name="id" id="id" readonly="" lay-verify="required" autocomplete="off" class="layui-input">
+                                <input type="text" name="id"  id="id" readonly="" lay-verify="required" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,8 @@
                                 async: false,   //不要让它异步提交
                                 data: data.field,
                                 success: function (data) {
-                                    if(data.msg!='0'){
+                                    console.log(data);
+                                    if(data==1){
                                         layer.alert("修改成功",{icon: 1,time:2000},function () {
                                             layer.close(layer.index);
                                             window.parent.location.reload();    //重新加载父页面，进行数据刷新
@@ -78,7 +79,6 @@
              });
 
         });
-
     </script>
 </body>
 </html>
