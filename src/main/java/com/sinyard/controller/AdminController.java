@@ -1,12 +1,11 @@
 package com.sinyard.controller;
-
 import com.sinyard.entity.Admin;
 import com.sinyard.service.AdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.coyote.Request;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,17 +24,21 @@ import java.util.Map;
 public class AdminController {
     @Autowired
     private AdminService adminService;
-//    @Autowired
-//    private Admin admin;
+
     @RequestMapping(value = "/loginCheck")
     @ApiOperation("实现管理员登录")
-    public String login(@RequestParam Integer adminid, @RequestParam String adminpassword){
-        String statu = adminService.login(adminid,adminpassword);
+    public String login(@RequestParam Integer adminid, @RequestParam String adminpassword) {
+        String statu = adminService.login(adminid, adminpassword);
         System.out.println(statu);
         //创建session对象
 //        HttpSession session = request.getSession(true);
 //        session.setAttribute("USER_INFO",userInfo);
         return statu;
+    }
+    @RequestMapping(value = "/test")
+    @ApiOperation("实现管理员登录")
+    public String logintest(){
+        return "Admin/index";
     }
 
     @RequestMapping(value = "/login")

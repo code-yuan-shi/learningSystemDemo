@@ -1,34 +1,253 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sinyard.dao.CourseMapper" >
-  <resultMap id="BaseResultMap" type="com.sinyard.entity.Course" >
-    <id column="courseID" property="courseid" jdbcType="INTEGER" />
-    <result column="courseTitle" property="coursetitle" jdbcType="VARCHAR" />
-    <result column="courseContent" property="coursecontent" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sinyard.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.sinyard.entity.Course">
+    <id column="courseID" jdbcType="INTEGER" property="courseid" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="leve" jdbcType="INTEGER" property="leve" />
+    <result column="courseTitle" jdbcType="VARCHAR" property="coursetitle" />
   </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sinyard.entity.Course">
+    <result column="courseContent" jdbcType="LONGVARCHAR" property="coursecontent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    courseID, pid, leve, courseTitle
+  </sql>
+  <sql id="Blob_Column_List">
+    courseContent
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sinyard.entity.CourseExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sinyard.entity.CourseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    where courseID = #{courseid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from course
     where courseID = #{courseid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.sinyard.entity.Course" >
-    insert into course (courseID, courseTitle, courseContent
-      )
-    values (#{courseid,jdbcType=INTEGER}, #{coursetitle,jdbcType=VARCHAR}, #{coursecontent,jdbcType=VARCHAR}
-      )
+  <delete id="deleteByExample" parameterType="com.sinyard.entity.CourseExample">
+    delete from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sinyard.entity.Course">
+    insert into course (courseID, pid, leve, 
+      courseTitle, courseContent)
+    values (#{courseid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{leve,jdbcType=INTEGER}, 
+      #{coursetitle,jdbcType=VARCHAR}, #{coursecontent,jdbcType=LONGVARCHAR})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.sinyard.entity.Course" >
+  <insert id="insertSelective" parameterType="com.sinyard.entity.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseid != null">
+        courseID,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="leve != null">
+        leve,
+      </if>
+      <if test="coursetitle != null">
+        courseTitle,
+      </if>
+      <if test="coursecontent != null">
+        courseContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseid != null">
+        #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="leve != null">
+        #{leve,jdbcType=INTEGER},
+      </if>
+      <if test="coursetitle != null">
+        #{coursetitle,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecontent != null">
+        #{coursecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sinyard.entity.CourseExample" resultType="java.lang.Integer">
+    select count(*) from course
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
     update course
-    set courseTitle = #{coursetitle,jdbcType=VARCHAR},
-      courseContent = #{coursecontent,jdbcType=VARCHAR}
+    <set>
+      <if test="record.courseid != null">
+        courseID = #{record.courseid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=INTEGER},
+      </if>
+      <if test="record.leve != null">
+        leve = #{record.leve,jdbcType=INTEGER},
+      </if>
+      <if test="record.coursetitle != null">
+        courseTitle = #{record.coursetitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.coursecontent != null">
+        courseContent = #{record.coursecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update course
+    set courseID = #{record.courseid,jdbcType=INTEGER},
+      pid = #{record.pid,jdbcType=INTEGER},
+      leve = #{record.leve,jdbcType=INTEGER},
+      courseTitle = #{record.coursetitle,jdbcType=VARCHAR},
+      courseContent = #{record.coursecontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update course
+    set courseID = #{record.courseid,jdbcType=INTEGER},
+      pid = #{record.pid,jdbcType=INTEGER},
+      leve = #{record.leve,jdbcType=INTEGER},
+      courseTitle = #{record.coursetitle,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sinyard.entity.Course">
+    update course
+    <set>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="leve != null">
+        leve = #{leve,jdbcType=INTEGER},
+      </if>
+      <if test="coursetitle != null">
+        courseTitle = #{coursetitle,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecontent != null">
+        courseContent = #{coursecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
     where courseID = #{courseid,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select courseID, courseTitle, courseContent
-    from course
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sinyard.entity.Course">
+    update course
+    set pid = #{pid,jdbcType=INTEGER},
+      leve = #{leve,jdbcType=INTEGER},
+      courseTitle = #{coursetitle,jdbcType=VARCHAR},
+      courseContent = #{coursecontent,jdbcType=LONGVARCHAR}
     where courseID = #{courseid,jdbcType=INTEGER}
-  </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select courseID, courseTitle, courseContent
-    from course
-  </select>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sinyard.entity.Course">
+    update course
+    set pid = #{pid,jdbcType=INTEGER},
+      leve = #{leve,jdbcType=INTEGER},
+      courseTitle = #{coursetitle,jdbcType=VARCHAR}
+    where courseID = #{courseid,jdbcType=INTEGER}
+  </update>
 </mapper>
