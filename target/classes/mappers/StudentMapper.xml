@@ -27,6 +27,11 @@
     from student
     where studentID = #{studentid,jdbcType=INTEGER}
   </select>
+  <select id="selectStudentByIdAndPass" resultMap="BaseResultMap">
+    select studentID, studentName, studentPassword
+    from student
+    where studentID = #{studentid,jdbcType=INTEGER} and studentPassword = #{studentpassword,jdbcType=INTEGER}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select studentID, studentName, studentPassword
     from student

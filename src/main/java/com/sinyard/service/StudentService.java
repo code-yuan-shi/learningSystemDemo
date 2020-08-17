@@ -55,4 +55,6 @@ public interface StudentService {
      * @return
      */
     public int deleteByPrimaryKey(Integer studentid);
+
+    String login(Integer studentid,String password);
 }

@@ -48,6 +48,13 @@ public class AdminController {
         return "login";
     }
 
+    @RequestMapping(value = "logout")
+    @ApiOperation("清空session，退出系统")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        session.invalidate();  //清空session
+        return "login";
+    }
 
     @RequestMapping(value = "/countAdmin")
     @ApiOperation("统计管理员数量")
