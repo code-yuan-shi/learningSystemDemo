@@ -48,7 +48,7 @@ public class CourseController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", 0);
         result.put("msg", "提示信息");
-        result.put("count","15"); //条数
+        result.put("count","15"); //条数 从数据库拿
         result.put("data", courseList);
         return result;
     }

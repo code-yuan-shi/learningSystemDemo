@@ -73,32 +73,6 @@
 
         });
 
-            // $.ajax({
-            //     url : '/admin/selectLike/',
-            //     data: {
-            //         //根据以下来查询，这里后端支持为空
-            //         adminid: $("#adminid").val(),
-            //         adminname: $("#adminname").val(),
-            //     },
-            //     traditional: true,
-            //     type : 'get',
-            //     dataType : 'json',
-            //     success : function(data) {
-            //         if (data.code === 0) {
-            //             console.log(data);
-            //             table.reload("test",function (res) {
-            //                 return{
-            //                     "code": res.data.code,//解析接口状态
-            //                     "msg": res.data.msg, //解析提示文本
-            //                     "count": res.data.total, //解析数据长度
-            //                     "data": res.data.field //解析数据列表
-            //                 };
-            //
-            //             });
-            //             layer.msg(data.code);
-            //         }
-            //     }
-            // });
             return false;
         });
         form.on('submit(addAdmin)', function (data) {

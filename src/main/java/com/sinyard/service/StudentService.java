@@ -17,6 +17,18 @@ public interface StudentService {
     public List<Student> selectAll();
 
     /**
+     *统计学生数目
+     * @return
+     */
+    public Integer countStudent();
+
+    /**
+     * 模糊查询学生
+     * @param record
+     * @return
+     */
+    public List<Student> selectLike(Student record);
+    /**
      * 根据学号查询学生
      * @param adminid
      * @return

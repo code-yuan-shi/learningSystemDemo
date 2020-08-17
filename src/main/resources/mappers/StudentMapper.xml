@@ -31,4 +31,25 @@
     select studentID, studentName, studentPassword
     from student
   </select>
+  <select id="selectLike" resultMap="BaseResultMap" parameterType="com.sinyard.entity.Student">
+    select * from student s
+    <where>
+      <if test="studentid!=null and studentid!=''">
+        <bind name="studentid" value="'%'+studentid+'%'"/>
+        and s.studentID like #{studentid,jdbcType=INTEGER}
+      </if>
+      <if test="studentname!=null and studentname!=''">
+        <bind name="studentname" value="'%'+studentname+'%'"/>
+        and s.studentName like #{studentname,jdbcType=VARCHAR}
+      </if>
+      <if test="studentpassword!=null and studentpassword!=''">
+        <bind name="studentpassword" value="'%'+studentpassword+'%'"/>
+        and s.studentPassword like #{studentpassword,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="countStudent" resultType="java.lang.Integer">
+    select count(*) from student
+  </select>
+
 </mapper>

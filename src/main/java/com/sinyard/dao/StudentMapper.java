@@ -1,10 +1,11 @@
 package com.sinyard.dao;
 
 import com.sinyard.entity.Student;
-import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository  //加上这个注解防止service报错
 public interface StudentMapper {
     int deleteByPrimaryKey(Integer studentid);
 
@@ -13,6 +14,10 @@ public interface StudentMapper {
     Student selectByPrimaryKey(Integer studentid);
 
     List<Student> selectAll();
+
+    List<Student> selectLike(Student record);
+
+    Integer countStudent();
 
     int updateByPrimaryKey(Student record);
 }

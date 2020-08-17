@@ -13,13 +13,23 @@ import java.util.List;
  * @desc
  */
 @Service
-public class StudentService implements com.sinyard.service.StudentService {
+public class StudentServiceImpl implements com.sinyard.service.StudentService {
     @Autowired
     private StudentMapper studentMapper;
 
     @Override
     public List<Student> selectAll() {
         return studentMapper.selectAll();
+    }
+
+    @Override
+    public Integer countStudent() {
+        return studentMapper.countStudent();
+    }
+
+    @Override
+    public List<Student> selectLike(Student record) {
+        return studentMapper.selectLike(record);
     }
 
     @Override

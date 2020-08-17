@@ -1,5 +1,6 @@
 package com.sinyard.controller;
 
+import com.sinyard.entity.Admin;
 import com.sinyard.entity.Student;
 import com.sinyard.service.StudentService;
 import io.swagger.annotations.Api;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author sinyard
@@ -19,7 +22,7 @@ import java.util.List;
  * @desc
  */
 @Controller
-@RequestMapping(value = "/student",method = {RequestMethod.POST})
+@RequestMapping(value = "/student",method = {RequestMethod.POST,RequestMethod.GET})
 @Api(value = "StudentController",description = "管理学生操作")
 public class StudentController {
     @Autowired
@@ -28,8 +31,10 @@ public class StudentController {
     @RequestMapping("/deleteById")
     @ApiOperation("根据学号删除学生")
     @ResponseBody
-    public int deleteByPrimaryKey(@RequestBody Integer studentid) {
-       return studentService.deleteByPrimaryKey(studentid);
+    public int deleteByPrimaryKey(Integer studentid) {
+        studentService.deleteByPrimaryKey(studentid);
+        int suc = 200;
+        return suc;
     }
 
     @RequestMapping("/insert")
@@ -38,17 +43,32 @@ public class StudentController {
     public int insert(@RequestBody Student record) {
         return studentService.insert(record);
     }
+
     @RequestMapping("/selectById")
     @ApiOperation("根据学号查找")
     @ResponseBody
     public Student selectByPrimaryKey(@RequestBody Integer studentid) {
         return studentService.selectByPrimaryKey(studentid);
     }
+
     @RequestMapping("/selectAll")
     @ApiOperation("查询所有学生")
     @ResponseBody
     public List<Student> selectAll() {
         return studentService.selectAll();
+    }
+
+    @RequestMapping("/selectLike")
+    @ApiOperation("模糊查询学生")
+    @ResponseBody
+    public Map<String, Object> selectLike(Student record) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("code", 0);
+        result.put("msg", "提示信息");
+        result.put("count",String.valueOf(studentService.countStudent())); //后续从数据库统计
+        result.put("data", studentService.selectLike(record));
+        System.out.println(result);
+        return result;
     }
     @RequestMapping("/updateById")
     @ApiOperation("根据学号更新信息")

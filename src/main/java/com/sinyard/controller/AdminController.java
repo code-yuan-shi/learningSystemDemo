@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,12 +28,12 @@ public class AdminController {
 
     @RequestMapping(value = "/loginCheck")
     @ApiOperation("实现管理员登录")
-    public String login(@RequestParam Integer adminid, @RequestParam String adminpassword) {
+    public String login(@RequestParam Integer adminid, @RequestParam String adminpassword, HttpServletRequest request) {
         String statu = adminService.login(adminid, adminpassword);
         System.out.println(statu);
         //创建session对象
-//        HttpSession session = request.getSession(true);
-//        session.setAttribute("USER_INFO",userInfo);
+        HttpSession session = request.getSession(true);
+        session.setAttribute("USER_INFO",adminid);
         return statu;
     }
     @RequestMapping(value = "/test")
@@ -71,7 +72,7 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/selectLike")
-    @ApiOperation("模糊查询用户")
+    @ApiOperation("模糊查询管理员")
     @ResponseBody
     public Map<String, Object> selectLike(Admin record) {
         Map<String, Object> result = new HashMap<String, Object>();

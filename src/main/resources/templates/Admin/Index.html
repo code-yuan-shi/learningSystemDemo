@@ -23,7 +23,7 @@
                     <input class="Noprn" type="button" onclick="window.print()" value="print"></a></li>
 
                 <li class="layui-nav-item"><a href="">
-                    你好，
+                    你好，编号<span class="x-red"  th:text="${session.USER_INFO}"/>
                     <dl class="layui-nav-child"> <!-- 二级菜单 -->
                         <dd><a href="">个人资料</a></dd>
                         <dd><a href="#" data-url="changePass" data-id="01" data-title="修改密码"  class="site-demo-active" data-type="tabAdd">修改密码</a></dd>
