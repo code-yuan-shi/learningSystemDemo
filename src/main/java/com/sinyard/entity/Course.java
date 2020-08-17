@@ -10,21 +10,13 @@ public class Course implements Serializable {
 
     private Integer leve;
 
-    private String desc;
-
     private String coursetitle;
+
+    private String desc;
 
     private String coursecontent;
 
     private List<Course> listCourse;
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
 
     public List<Course> getListCourse() {
         return listCourse;
@@ -68,6 +60,14 @@ public class Course implements Serializable {
         this.coursetitle = coursetitle == null ? null : coursetitle.trim();
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc == null ? null : desc.trim();
+    }
+
     public String getCoursecontent() {
         return coursecontent;
     }
@@ -86,6 +86,7 @@ public class Course implements Serializable {
         sb.append(", pid=").append(pid);
         sb.append(", leve=").append(leve);
         sb.append(", coursetitle=").append(coursetitle);
+        sb.append(", desc=").append(desc);
         sb.append(", coursecontent=").append(coursecontent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

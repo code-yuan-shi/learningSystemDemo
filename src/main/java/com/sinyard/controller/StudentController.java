@@ -65,7 +65,7 @@ public class StudentController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", 0);
         result.put("msg", "提示信息");
-        result.put("count",String.valueOf(studentService.countStudent())); //后续从数据库统计
+        result.put("count",String.valueOf(studentService.countStudent()));
         result.put("data", studentService.selectLike(record));
         System.out.println(result);
         return result;

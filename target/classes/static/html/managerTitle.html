@@ -113,7 +113,7 @@
                         $.ajax({
                             url:'/course/deleteById/',
                             type:'get',
-                            data:{'courseid':data.courseid,'action':'title'}, //向服务端发送删除的id
+                            data:{'courseid':data.courseid}, //向服务端发送删除的id
                             success:function (suc) {
                                 if (suc == 1) {
                                     obj.del(); //删除对应行（tr）的DOM结构，并更新缓存

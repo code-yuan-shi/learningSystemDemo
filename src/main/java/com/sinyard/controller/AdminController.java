@@ -48,18 +48,6 @@ public class AdminController {
         return "login";
     }
 
-//已经没用了，与模糊查询合并了
-//    @RequestMapping(value = "/selectAll")
-//    @ApiOperation("查询所有用户")
-//    @ResponseBody
-//    public  Map<String, Object>  selectAll() {
-//        Map<String, Object> result = new HashMap<String, Object>();
-//        result.put("code", 0);
-//        result.put("msg", "提示信息");
-//        result.put("count",String.valueOf(adminService.countAdmin())); //后续从数据库统计
-//        result.put("data", adminService.selectAll());
-//        return result;
-//    }
 
     @RequestMapping(value = "/countAdmin")
     @ApiOperation("统计管理员数量")
