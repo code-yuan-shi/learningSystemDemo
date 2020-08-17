@@ -7,11 +7,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,30 @@ public class StudentController {
         studentService.deleteByPrimaryKey(studentid);
         int suc = 200;
         return suc;
+    }
+
+    @RequestMapping(value = "/login")
+    @ApiOperation("实现访问学生登录页")
+    public String login(){
+        return "studentlogin";
+    }
+
+    @RequestMapping(value = "/loginCheck")
+    @ApiOperation("实现学生登录")
+    public String login(@RequestParam Integer studentid, @RequestParam String studentpassword, HttpServletRequest request) {
+
+        //创建session对象
+        HttpSession session = request.getSession(true);
+        session.setAttribute("USER_INFO",studentid);
+        return studentService.login(studentid, studentpassword);
+    }
+
+    @RequestMapping(value = "logout")
+    @ApiOperation("清空session，退出系统")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        session.invalidate();  //清空session
+        return "studentlogin";
     }
 
     @RequestMapping("/insert")
@@ -76,5 +99,4 @@ public class StudentController {
     public int updateByPrimaryKey(@RequestBody Student record) {
         return studentService.updateByPrimaryKey(record);
     }
-
 }

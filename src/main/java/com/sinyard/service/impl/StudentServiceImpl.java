@@ -1,6 +1,7 @@
 package com.sinyard.service.impl;
 
 import com.sinyard.dao.StudentMapper;
+import com.sinyard.entity.Admin;
 import com.sinyard.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,14 @@ public class StudentServiceImpl implements com.sinyard.service.StudentService {
     @Override
     public int deleteByPrimaryKey(Integer studentid) {
         return studentMapper.deleteByPrimaryKey(studentid);
+    }
+
+    @Override
+    public String login(Integer studentid, String password) {
+        Student student = studentMapper.selectStudentByIdAndPass(studentid, password);
+        if (student != null) { //登录成功
+            return "redirect:../index";
+        }
+        return "studentlogin";  //失败--后续添加提示信息等
     }
 }

@@ -65,23 +65,23 @@
     </style>
 </head>
 <body>
-<form class="layui-form" action="/admin/loginCheck" method="post">
+<form class="layui-form" action="/student/loginCheck" method="post">
     <div class="container">
         <button class="close" title="关闭">X</button>
         <div class="layui-form-mid layui-word-aux">
-<!--            <img id="logoid" src="06.png" height="35">-->
-            <span id="logoid">欢迎登陆学习平台后台管理</span>
+            <!--            <img id="logoid" src="06.png" height="35">-->
+            <span id="logoid">欢迎登陆数据结构学习平台</span>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-                <input type="text" name="adminid" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                <input type="text" name="studentid" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密 &nbsp;&nbsp;码</label>
             <div class="layui-input-inline">
-                <input type="password" name="adminpassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="password" name="studentpassword" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
             <!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
         </div>
@@ -114,8 +114,8 @@
         var form = layui.form
             ,layer = layui.layer
             ,layedit = layui.layedit
-            ,laydate = layui.laydate;
-
+            ,laydate = layui.laydate
+            ,$ =layui.jquery;
         //日期
         /* laydate.render({
            elem: '#date'
@@ -152,9 +152,10 @@
          });*/
 
         //监听提交
-        form.on('submit(demo1)', function(data){
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
+        form.on('submit(formDemo)', function(data){
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+
             })
             return false;
         });

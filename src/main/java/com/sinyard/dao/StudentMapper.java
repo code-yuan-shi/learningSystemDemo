@@ -20,4 +20,6 @@ public interface StudentMapper {
     Integer countStudent();
 
     int updateByPrimaryKey(Student record);
+
+    Student selectStudentByIdAndPass(Integer studentid, String studentpassword);
 }
