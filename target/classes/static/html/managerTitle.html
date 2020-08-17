@@ -53,18 +53,24 @@
         var $ = layui.$
         //监听提交
         form.on('submit(searchLike)', function (data) {
-            console.log(data.field);
-             getDate(data.field);
+            getDate(data.field);
             return false;
         });
 
          getDate('');
         //第一个表格实例
         function getDate(data){
+        var parm='';
+        if(data.courseid){
+        parm += '&courseid='+data.courseid;
+        }
+        if(data.coursetitle){
+        parm += '&coursetitle='+data.coursetitle;
+        }
             table.render({
                 elem: '#demo'
                 ,height: 500
-                ,url: '/course/title' //数据接口
+                ,url: '/course/title?'+parm //数据接口
                 ,page: true //开启分页
                 ,paarseData:function (res) { //返回的数据
                     res.data.code = 0

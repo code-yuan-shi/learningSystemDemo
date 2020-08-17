@@ -82,7 +82,7 @@
 -->
 
             <li class="layui-nav-item layui-hide-xs" lay-unselect="">
-                <a href="" target="_blank">后台 <span class="layui-badge-dot"
+                <a href="/admin/login" target="_blank">后台 <span class="layui-badge-dot"
                                                                                   style="margin-top: -5px;"></span></a>
             </li>
             <span class="layui-nav-bar" style="width: 0px; left: 270px; opacity: 0; top: 55px;"></span></ul>
@@ -127,7 +127,7 @@
     </div>
 
     <!-- 内容页 -->
-    <div id="content" class="site-content">
+    <div id="content" th:utext="${courseList[0].listCourse[0].coursecontent}" class="site-content">
 
     </div>
 </div>
@@ -162,13 +162,6 @@
         charset="utf-8"></script>
 <script>
    function contentData(content){
-
-    /*$.get('content-data',{pid:pid},function(data){
-        $("#content").empty();
-        console.log(data);
-         $("#content").html(data.coursecontent);
-    })*/
-        //alert(content);
       $("#content").empty();
       $("#content").html(content);
    }

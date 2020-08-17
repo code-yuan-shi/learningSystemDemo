@@ -32,16 +32,16 @@ public class CourseController {
 
     @RequestMapping(value = "/title")
     @ResponseBody
-    public Map<String, Object> title(Course Course){
+    public Map<String, Object> title(Course course){
         CourseExample example = new CourseExample();
         CourseExample.Criteria criteria = example.createCriteria();
         criteria.andLeveEqualTo(1);
         criteria.andPidEqualTo(0);
-        if(Course.getCourseid()!=null){
-            criteria.andCourseidEqualTo(Course.getCourseid());
+        if(course.getCourseid()!=null){
+            criteria.andCourseidEqualTo(course.getCourseid());
         }
-        if(Course.getCoursetitle()!=null){
-            criteria.andCoursetitleLike("%"+Course.getCoursetitle()+"%");
+        if(course.getCoursetitle()!=null){
+            criteria.andCoursetitleLike("%"+course.getCoursetitle()+"%");
         }
         List<Course> courseList = courseService.selectByExampleWithBLOBs(example);
         Map<String, Object> result = new HashMap<String, Object>();
@@ -68,13 +68,16 @@ public class CourseController {
 
     @RequestMapping(value = "/content-list")
     @ResponseBody
-    public Map<String, Object> contentList(@RequestParam(defaultValue = "1")int courseid){
+    public Map<String, Object> contentList(Course course){
         Map<String, Object> result = new HashMap<String, Object>();
         List<Course> contentList = new ArrayList<Course>();
         CourseExample example = new CourseExample();
         CourseExample.Criteria criteria = example.createCriteria();
         criteria.andLeveEqualTo(2);
-        criteria.andPidEqualTo(courseid);
+        criteria.andPidEqualTo(course.getCourseid());
+        if(course.getCoursetitle()!=null){
+            criteria.andCoursetitleLike("%"+course.getCoursetitle()+"%");
+        }
         contentList = courseService.selectByExampleWithBLOBs(example);
         result.put("code", 0);
         result.put("msg", "提示信息");
@@ -120,5 +123,4 @@ public class CourseController {
         int status1 = courseService.updateByPrimaryKeySelective(course);
         return status1;
     }
-
 }

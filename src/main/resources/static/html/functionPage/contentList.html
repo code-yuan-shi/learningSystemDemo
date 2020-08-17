@@ -63,10 +63,17 @@
          getDate('');
         //第一个表格实例
         function getDate(data){
+        var parm='';
+        if(data.courseid){
+        parm += '&searchid='+data.courseid;
+        }
+        if(data.coursetitle){
+        parm += '&coursetitle='+data.coursetitle;
+        }
             table.render({
                 elem: '#demo'
                 ,height: 312
-                ,url: '/course/content-list?courseid='+courseid //数据接口
+                ,url: '/course/content-list?courseid='+courseid+parm //数据接口
                 ,page: true //开启分页
                 ,paarseData:function (res) { //返回的数据
                     res.data.code = 0
