@@ -24,7 +24,6 @@
     </div>
     <div class="layui-form-item layui-inline">
         <button class="layui-btn" lay-submit lay-filter="searchLike">条件查询</button>
-        <label class="layui-form-label">当条件为空时，查询所有</label>
         <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
     <div class="layui-form-item layui-inline" style="text-align: right">
@@ -59,15 +58,10 @@
             return false;
         });
 
-        //监听按钮
-        form.on('submit(searchAll)', function (data) {
-            layer.msg("点击了查询所有");
-            return false;
-        });
         form.on('submit(searchLike)', function (data) {
-            layer.msg("点击了模糊查询");
+            // layer.msg("点击了条件查询");
 
-            table.reload('tableOne',{
+            table.reload('tableOne',{  //表格重载，通过表格初始化设定的id
                 method:'post'
                 ,where: { //设定异步数据接口的额外参数，任意设
                     'adminid': $("#adminid").val(),

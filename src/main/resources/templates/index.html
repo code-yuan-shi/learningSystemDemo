@@ -117,9 +117,9 @@
             <li><h2 th:text="${left.coursetitle}"></h2></li>
 
             <li th:each="next : ${left.listCourse}" class="site-tree-noicon layui-this">
-                <a th:attr = "onclick=${'contentData('+next.courseid+')'}">
+                <a th:attr = "onclick=${'contentData('''+next.coursecontent+''')'}">
                     <cite th:text="${next.coursetitle}"></cite>
-                    <em th:text="${next.coursecontent}"></em>
+                    <em th:text="${next.desc}"></em>
                 </a>
             </li>
         </ul>
@@ -127,7 +127,7 @@
     </div>
 
     <!-- 内容页 -->
-    <div id="content" th:utext="${course.coursecontent}" class="site-content">
+    <div id="content" class="site-content">
 
     </div>
 </div>
@@ -161,12 +161,16 @@
 <script src="layui.js"
         charset="utf-8"></script>
 <script>
-   function contentData(pid){
-    $.get('content-data',{pid:pid},function(data){
+   function contentData(content){
+
+    /*$.get('content-data',{pid:pid},function(data){
         $("#content").empty();
         console.log(data);
          $("#content").html(data.coursecontent);
-    })
+    })*/
+        //alert(content);
+      $("#content").empty();
+      $("#content").html(content);
    }
 </script>
 
