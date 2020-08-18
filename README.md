@@ -6,7 +6,7 @@
 2. 导入你的SDK版本，IDEA会有提示，你点一下版本就行了（如果你之前配置过）
 3. 运行![image-20200817234003500](https://raw.githubusercontent.com/code-yuan-shi/MD_Images/master/img/20200818123627.png)这个主函数，![image-20200817234050826](https://raw.githubusercontent.com/code-yuan-shi/MD_Images/master/img/20200818124647.png)看到这行文字说明运行成功。
 4. 导入数据库，在Navicat中创建名字为learningsystem的数据库，运行document中的.sql文件
-
+5.运行环境，IDEA 2019.3.3；mysql 8.0.3
 ### 模块设计
 
 + 登录注册模块、
