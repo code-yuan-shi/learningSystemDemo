@@ -1,4 +1,4 @@
-# 数据库学习资料管理系统 #
+# 数据结构学习资料管理系统 #
 
 ### 入门使用
 
@@ -27,7 +27,7 @@
 
   >管理员在后台可以上传或者修改资料，并呈现于用户
 
-  > 设置学习资源得先添加一个标题，![image-20200817235717771]https://raw.githubusercontent.com/code-yuan-shi/MD_Images/master/img/20200818123639.png)点这个，然后再点击![image-20200817235757041](https://raw.githubusercontent.com/code-yuan-shi/MD_Images/master/img/20200818124514.png)就可以按照同样的逻辑为这个标题添加内容了，
+  > 设置学习资源得先添加一个标题，![image-20200817235717771](https://raw.githubusercontent.com/code-yuan-shi/MD_Images/master/img/20200818123639.png)点这个，然后再点击![image-20200817235757041](https://raw.githubusercontent.com/code-yuan-shi/MD_Images/master/img/20200818124514.png)就可以按照同样的逻辑为这个标题添加内容了，
 
   编辑好你的内容之后你可以再次前往[前台登录地址](http://localhost:8080/student/login)， 看看你刚才编辑的内容是否在页面上显示
 
